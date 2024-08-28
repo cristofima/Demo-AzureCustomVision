@@ -11,23 +11,26 @@ namespace AzureCustomVision.API.Services
     public class AzureVisionService : IAzureVisionService
     {
         private readonly ImageAnalysisClient imageAnalysisClient;
+        private readonly IVisualFeaturesParser featuresParser;
 
-        public AzureVisionService(IOptions<AzureVisionSettings> options)
+        public AzureVisionService(IOptions<AzureVisionSettings> options, IVisualFeaturesParser featuresParser)
         {
             var settings = options.Value;
+            this.featuresParser = featuresParser;
 
             this.imageAnalysisClient = new ImageAnalysisClient(
                 new Uri(settings.Endpoint),
-                new AzureKeyCredential(settings.ApiKey));
+                new AzureKeyCredential(settings.ApiKey));          
         }
 
-        public async Task<ImageAnalysisResult> AnalizeImage(FileRequest request)
+        public async Task<ImageAnalysisResult> AnalyzeImage(FileRequest request, string visualFeatures)
         {
             var memoryStream = await StreamUtil.ToMemoryStreamAsync(request.Image.OpenReadStream());
+            var selectedFeatures = this.featuresParser.ParseFeatures(visualFeatures);
+
             return imageAnalysisClient.Analyze(
                 BinaryData.FromStream(memoryStream),
-                VisualFeatures.Caption |
-                VisualFeatures.Read
+                selectedFeatures
                 );
         }
     }

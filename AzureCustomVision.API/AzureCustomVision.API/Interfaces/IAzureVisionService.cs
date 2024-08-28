@@ -5,6 +5,6 @@ namespace AzureCustomVision.API.Interfaces
 {
     public interface IAzureVisionService
     {
-        Task<ImageAnalysisResult> AnalizeImage(FileRequest request);
+        Task<ImageAnalysisResult> AnalyzeImage(FileRequest request, string visualFeatures);
     }
 }
