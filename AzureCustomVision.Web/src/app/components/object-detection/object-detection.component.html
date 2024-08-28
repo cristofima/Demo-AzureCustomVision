@@ -1,14 +1,23 @@
 <div class="flex flex-column gap-3 p-3">
   <app-image-selection [(selectedFile)]="selectedFile"></app-image-selection>
-  <p-button label="Upload Image" (onClick)="onUpload()" [loading]="isLoading" [disabled]="!selectedFile"></p-button>
+  <p-button
+    label="Upload Image"
+    (onClick)="onUpload()"
+    [loading]="isLoading"
+    [disabled]="!selectedFile"
+  ></p-button>
 
-  @if(selectedFileURL){
-  <img class="align-self-start" #uploadedImage [src]="selectedFileURL" alt="Uploaded Image" />
-  <canvas #canvas class="align-self-start"></canvas>
+  @if (selectedFileURL) {
+    <img
+      class="align-self-start"
+      #uploadedImage
+      [src]="selectedFileURL"
+      alt="Uploaded Image"
+    />
+    <canvas #canvas class="align-self-start"></canvas>
   }
 
-  @if(plateNumber){
-  <p><b>Plate number:</b> {{ plateNumber }}</p>
+  @if (plateNumber) {
+    <p><b>Plate number:</b> {{ plateNumber }}</p>
   }
-
 </div>

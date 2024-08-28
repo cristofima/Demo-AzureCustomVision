@@ -25,8 +25,8 @@ export class ApiService {
     return this.http.post<ObjectDetection[]>(`${this.baseUrl}/ObjectDetection/CarPlate`, formData);
   }
 
-  analyzeImage(image: File | Blob) {
+  analyzeImage(image: File | Blob, features: string) {
     const formData = FormUtil.createFormData(image);
-    return this.http.post<ImageAnalysis>(`${this.baseUrl}/ImageAnalysis`, formData);
+    return this.http.post<ImageAnalysis>(`${this.baseUrl}/ImageAnalysis?features=${features}`, formData);
   }
 }

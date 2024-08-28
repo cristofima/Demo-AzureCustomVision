@@ -4,11 +4,12 @@ import { ImageSelectionComponent } from '@/shared/components/image-selection/ima
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-image-analysis',
   standalone: true,
-  imports: [CommonModule, ImageSelectionComponent, ButtonModule],
+  imports: [CommonModule, ImageSelectionComponent, ButtonModule, TagModule],
   templateUrl: './image-analysis.component.html'
 })
 export class ImageAnalysisComponent {
@@ -17,6 +18,7 @@ export class ImageAnalysisComponent {
   selectedFileURL: string | null = null;
   isLoading: boolean = false;
   response?: ImageAnalysis;
+  private features: string = 'Caption,DenseCaptions,Tags';
 
   @ViewChild('uploadedImage', { static: false }) uploadedImageRef!: ElementRef<HTMLImageElement>;
 
@@ -28,7 +30,7 @@ export class ImageAnalysisComponent {
     this.isLoading = true;
     this.response = undefined;
     this.selectedFileURL = URL.createObjectURL(this.selectedFile);
-    this.apiService.analyzeImage(this.selectedFile).subscribe(response => {
+    this.apiService.analyzeImage(this.selectedFile, this.features).subscribe(response => {
       this.response = response;
       this.isLoading = false;
     }, () => {

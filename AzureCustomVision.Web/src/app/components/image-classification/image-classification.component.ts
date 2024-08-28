@@ -29,7 +29,8 @@ export class ImageClassificationComponent {
     this.predictions = [];
     this.selectedFileURL = URL.createObjectURL(this.selectedFile);
     this.apiService.classifyPlantDisease(this.selectedFile).subscribe(response => {
-      this.predictions = response;
+      if (!response) return;
+      this.predictions = response.filter(prediction => prediction.probability * 100 >= 0.01);
       this.isLoading = false;
     }, () => {
       this.isLoading = false;

@@ -1,21 +1,47 @@
 export interface ImageAnalysis {
   caption: Caption;
-  read: Read;
+  denseCaptions?: {
+    values: Caption[];
+  };
+  read?: Read;
+  people?: {
+    values: PersonDetection[];
+  };
+  tags?: {
+    values: TagPrediction[];
+  };
 }
 
 export interface Caption {
-  confidence: number
-  text: string
+  confidence: number;
+  text: string;
 }
 
 export interface Read {
-  blocks: Block[]
+  blocks: Block[];
 }
 
 export interface Block {
-  lines: Line[]
+  lines: Line[];
 }
 
 export interface Line {
-  text: string
+  text: string;
+}
+
+export interface PersonDetection {
+  boundingBox: BoundingBox;
+  confidence: number;
+}
+
+export interface BoundingBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface TagPrediction {
+  name: string;
+  confidence: number;
 }

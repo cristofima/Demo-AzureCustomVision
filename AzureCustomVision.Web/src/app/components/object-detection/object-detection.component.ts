@@ -59,8 +59,8 @@ export class ObjectDetectionComponent {
     this.imageProcessingService.prepareCanvasForUpload(canvas).then((blob) => {
       if (blob) {
         this.ngZone.run(() => {
-          this.apiService.analyzeImage(blob).subscribe((response) => {
-            if (response) {
+          this.apiService.analyzeImage(blob, 'Read').subscribe((response) => {
+            if (response?.read) {
               this.plateNumber = response.read.blocks[0].lines[0].text;
             }
           });

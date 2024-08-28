@@ -1,11 +1,40 @@
 <div class="flex flex-column gap-3 p-3">
   <app-image-selection [(selectedFile)]="selectedFile"></app-image-selection>
-  <p-button label="Upload Image" (onClick)="onUpload()" [loading]="isLoading" [disabled]="!selectedFile"></p-button>
-  @if(selectedFileURL){
-  <img class="align-self-start" #uploadedImage [src]="selectedFileURL" alt="Uploaded Image" />
+  <p-button
+    label="Upload Image"
+    (onClick)="onUpload()"
+    [loading]="isLoading"
+    [disabled]="!selectedFile"
+  ></p-button>
+  @if (selectedFileURL) {
+    <img
+      class="align-self-start"
+      #uploadedImage
+      [src]="selectedFileURL"
+      alt="Uploaded Image"
+    />
   }
 
-  @if(response){
-  <p><b>Caption:</b> {{response.caption.text}}</p>
+  @if (response) {
+    <section>
+      <p><b>Caption:</b> {{ response.caption.text }}</p>
+      @if (response.denseCaptions) {
+        <h4>Dense Captions</h4>
+        <ul>
+          @for (caption of response.denseCaptions.values; track caption.text) {
+            <li>{{ caption.text }}</li>
+          }
+        </ul>
+      }
+
+      @if (response.tags) {
+        <h4>Tags</h4>
+        <div class="flex gap-2">
+          @for (tag of response.tags.values; track tag.name) {
+            <p-tag [value]="tag.name" />
+          }
+        </div>
+      }
+    </section>
   }
 </div>
