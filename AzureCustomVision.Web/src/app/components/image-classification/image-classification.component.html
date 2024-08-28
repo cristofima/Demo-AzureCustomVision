@@ -1,0 +1,25 @@
+<div class="flex flex-column gap-3 p-3">
+  <app-image-selection [(selectedFile)]="selectedFile"></app-image-selection>
+  <p-button label="Upload Image" (onClick)="onUpload()" [loading]="isLoading" [disabled]="!selectedFile"></p-button>
+  @if(selectedFileURL){
+  <img class="align-self-start" #uploadedImage [src]="selectedFileURL" alt="Uploaded Image" />
+  }
+
+  @if(predictions.length){
+  <div class="flex flex-column gap-3">
+    <h3>Predictions</h3>
+    <div class="flex flex-column gap-3">
+      <div class="flex flex-row gap-3">
+        <p>Class</p>
+        <p>Probability</p>
+      </div>
+      <div class="flex flex-column gap-3">
+        <div class="flex flex-row gap-3" *ngFor="let prediction of predictions">
+          <p>{{ prediction.tagName }}</p>
+          <p>{{ prediction.probability * 100 | number: '0.2-2' }}%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>
